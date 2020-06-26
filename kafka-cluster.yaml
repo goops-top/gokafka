@@ -1,0 +1,7 @@
+app: test-kafka
+version: 666
+spec:
+  clusters:
+  - name: log-kafka
+    brokers:
+    - log-kafka-1.bgbiao.cn:9092
