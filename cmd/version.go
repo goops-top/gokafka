@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"os"
 
 	"gokafka/utils"
@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	output		string
+	output string
 )
 
 func init() {
@@ -20,20 +20,18 @@ func init() {
 }
 
 func parserVersion() {
-    v := utils.Get()
+	v := utils.Get()
 	if output == "json" {
-		versionMarshal,err := json.MarshalIndent(&v, "", "  ")
+		versionMarshal, err := json.MarshalIndent(&v, "", "  ")
 		if err != nil {
 			fmt.Printf("%v\n", err)
 			os.Exit(1)
 		}
-	
+
 		fmt.Println(string(versionMarshal))
 	} else {
-		fmt.Printf("Version: %s\nGitBranch: %s\nCommitId: %s\nBuild Date: %s\nGo Version: %s\nOS/Arch: %s\n",v.Version,v.GitBranch,v.GitCommit,v.BuildDate,v.GoVersion,v.Platform)
+		fmt.Printf("Version: %s\nGitBranch: %s\nCommitId: %s\nBuild Date: %s\nGo Version: %s\nOS/Arch: %s\n", v.Version, v.GitBranch, v.GitCommit, v.BuildDate, v.GoVersion, v.Platform)
 	}
-
-
 
 }
 

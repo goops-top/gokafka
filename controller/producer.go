@@ -3,8 +3,8 @@ package controller
 import (
 	// "gokafka/modules"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/goops-top/utils/kafka"
+	log "github.com/sirupsen/logrus"
 )
 
 func ProducerMsgFromString(brokers []string, topic, msg string) {

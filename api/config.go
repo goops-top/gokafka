@@ -15,9 +15,11 @@ package api
 // 最后从BROKER_LIST环境变量中读取
 
 import (
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 
-	_ "fmt"
+	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	_ "reflect"
@@ -65,7 +67,9 @@ func (config *VipConfig) ParserConfig(configFile string) {
 	// 设置配置文件为yaml格式
 	config.ConfObj.SetConfigType("yaml")
 	if err := config.ConfObj.ReadInConfig(); err != nil {
-		panic(err)
+		log.Warnln(err)
+		InitConfig()
+		return
 	}
 	AppName = config.ConfObj.GetString("app")
 	AppVersion = config.ConfObj.GetString("version")
@@ -91,5 +95,35 @@ func (config *VipConfig) ParserConfig(configFile string) {
 			Brokers: brokers,
 		}
 		Cluster = append(Cluster, clusterInfo)
+	}
+}
+
+var defaultConf string = `
+app: gokafka
+spec:
+  clusters:
+  - name: test-kafka
+    version: V2_5_0_0
+    brokers:
+    - 10.0.0.1:9092
+    - 10.0.0.2:9092
+    - 10.0.0.3:9092
+  - name: dev-kafka
+    version: V1_0_0_0
+    brokers:
+    - 192.168.0.22:9092
+    - 192.168.0.23:9092
+    - 192.168.0.24:9092
+`
+
+func InitConfig() bool {
+	data := []byte(defaultConf)
+	filePath := fmt.Sprintf("%s/.goops-kafka", os.Getenv("HOME"))
+	os.Create(filePath)
+	if err := ioutil.WriteFile(filePath, data, 0644); err != nil {
+		log.Errorf("init the config failed with :%v\n", err)
+		return false
+	} else {
+		return true
 	}
 }

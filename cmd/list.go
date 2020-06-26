@@ -28,13 +28,14 @@ var listCmd = &cobra.Command{
 	Short:   "list the kafka some info (cluster,topic,broker)",
 	Long:    `this command can list the kafka info for cluster,broker,topic`,
 }
-// list the kafka cluster info 
+
+// list the kafka cluster info
 var listClusterCmd = &cobra.Command{
-	Use: "cluster",
+	Use:   "cluster",
 	Short: "list the cluster info",
-	Run: func(cmd *cobra.Command,args []string) {
+	Run: func(cmd *cobra.Command, args []string) {
 		for _, c := range api.Cluster {
-			fmt.Printf("cluster:%v version:%v connector_brokers:%v\n",c.Name,c.Version,c.Brokers)
+			fmt.Printf("cluster:%v version:%v connector_brokers:%v\n", c.Name, c.Version, c.Brokers)
 		}
 
 	},

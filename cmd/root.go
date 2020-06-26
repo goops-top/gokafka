@@ -14,7 +14,7 @@ var (
 	groupNames string // 指定分组列表"group1,group2"
 	group      string // 指定分组名称"消费组"
 	msgData    string // 指定生产者的生产消息
-	version	   string // 查看版本信息
+	version    string // 查看版本信息
 
 	// 配置文件
 	cfgFile string

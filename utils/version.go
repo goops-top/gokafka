@@ -6,18 +6,18 @@ import (
 )
 
 var (
-	version		string
-	gitBranch   string
-	gitTag		string
-	gitCommit	string
-	gitTreeState	string
-	buildDate	string
+	version      string
+	gitBranch    string
+	gitTag       string
+	gitCommit    string
+	gitTreeState string
+	buildDate    string
 )
 
 // Info contains versioning information.
 type Info struct {
-	Version	     string `json:"version"`
-	GitBranch	 string	`json:"gitBranch"`
+	Version      string `json:"version"`
+	GitBranch    string `json:"gitBranch"`
 	GitTag       string `json:"gitTag"`
 	GitCommit    string `json:"gitCommit"`
 	GitTreeState string `json:"gitTreeState"`
@@ -34,8 +34,8 @@ func (info Info) String() string {
 
 func Get() Info {
 	return Info{
-		Version: 	  version,
-		GitBranch:	  gitBranch,
+		Version:      version,
+		GitBranch:    gitBranch,
 		GitTag:       gitTag,
 		GitCommit:    gitCommit,
 		GitTreeState: gitTreeState,
