@@ -9,10 +9,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	offset        string
+	consumerGroup string
+)
+
 func init() {
 	rootCmd.AddCommand(consumerMsgCmd)
 
 	consumerMsgCmd.PersistentFlags().StringVar(&topicName, "topic", "", "指定topic名称")
+
+	// 可选参数
+	// PersistentFlags()和Flags()
+	consumerMsgCmd.Flags().StringVar(&consumerGroup, "group", "", "指定消费者组")
+	consumerMsgCmd.Flags().StringVar(&offset, "offset", "", "指定消费的位置[latest|earliest]")
 
 }
 
@@ -45,6 +55,6 @@ var consumerMsgCmd = &cobra.Command{
 		}
 
 		// 指定topic进行消费消息
-		controller.ConsumerMsgTopics(_broker, []string{topicName})
+		controller.ConsumerMsgTopics(_broker, []string{topicName}, consumerGroup, offset)
 	},
 }

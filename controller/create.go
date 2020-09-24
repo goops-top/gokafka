@@ -10,7 +10,6 @@
 package controller
 
 import (
-	// "gokafka/modules"
 	"github.com/goops-top/utils/kafka"
 
 	"fmt"

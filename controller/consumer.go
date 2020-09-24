@@ -1,8 +1,6 @@
 package controller
 
 import (
-	_ "gokafka/modules"
-
 	"github.com/goops-top/utils/kafka"
 	log "github.com/sirupsen/logrus"
 
@@ -11,10 +9,11 @@ import (
 	"syscall"
 )
 
-func ConsumerMsgTopics(brokers, topics []string) {
+func ConsumerMsgTopics(brokers, topics []string, groupName, offset string) {
 
 	// consumerApi := modules.NewConsumerApi(brokers)
-	consumerApi := kafka.NewConsumerApi(brokers)
+	// consumerApi := kafka.NewConsumerApi(brokers)
+	consumerApi := kafka.NewConsumerApi(brokers, groupName, offset)
 
 	defer consumerApi.Close()
 

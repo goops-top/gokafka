@@ -6,7 +6,6 @@ import (
 
 	"gokafka/api"
 	"gokafka/controller"
-	_ "gokafka/modules"
 
 	"github.com/spf13/cobra"
 )

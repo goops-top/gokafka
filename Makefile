@@ -1,7 +1,7 @@
 .PHONY: list vet fmt default clean
 all: list vet fmt default clean 
 BINARY="gokafka"
-VERSION=0.0.1
+VERSION=0.0.2
 BUILD=`date +%F`
 SHELL := /bin/bash
 BASEDIR = $(shell pwd)

@@ -6,7 +6,7 @@ require (
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/Shopify/sarama v1.26.4
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/goops-top/utils v0.0.0-20200608100259-1223981716cd
+	github.com/goops-top/utils v0.0.3
 	github.com/jordan-wright/email v0.0.0-20200602115436-fd8a7622303e // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/klauspost/compress v1.10.8 // indirect
