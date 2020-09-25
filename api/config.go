@@ -91,7 +91,7 @@ func (config *VipConfig) ParserConfig(configFile string) {
 		*/
 		clusterInfo := ClusterInfo{
 			Name: c["name"].(string),
-			// Version: c["version"].(string),
+			Version: c["version"].(string),
 			Brokers: brokers,
 		}
 		Cluster = append(Cluster, clusterInfo)

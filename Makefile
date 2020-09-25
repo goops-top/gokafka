@@ -14,7 +14,7 @@ buildDate=$(shell TZ=Asia/Shanghai date +%FT%T%z)
 gitCommit=$(shell git rev-parse --short HEAD)
 gitTreeState=$(shell if git status|grep -q 'clean';then echo clean; else echo dirty; fi)
 
-ldflags="-s -w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState} -X ${versionDir}.version=${VERSION} -X ${versionDir}.gitBranch=${gitBranch}"
+ldflags="-s -w -X ${versionDir}.gitTag=${gitTag} -X ${versionDir}.buildDate=${buildDate} -X ${versionDir}.gitCommit=${gitCommit} -X ${versionDir}.gitTreeState=${gitTreeState} -X ${versionDir}.version=${gitTag} -X ${versionDir}.gitBranch=${gitBranch}"
 
 
 PACKAGES=`go list ./... | grep -v /vendor/`

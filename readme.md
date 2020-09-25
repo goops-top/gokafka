@@ -159,13 +159,26 @@ INFO[0000] Produce msg:Nice to meet you. to topic:test-bgbiao-1
 INFO[0000] topic:test-bgbiao-1 send ok with offset:0
 
 # 5.消费消息(gokafka中创建了一个默认的消费组用来预览消息)
+
+
 # 在终端进行实时消费，ctrl+c 可取消
+# 默认会创建一个Gokafka 的消费者组；并且使用从消息的头部开始消费(相当于官方消费者工具的--begin)
+# 可手工指定消费者组和消费的位置
+## --group 指定消费者组
+## --offset 指定消费位置(latest|earliest) 
+
 $ ./build/gokafka.mac  --cluster dev-kafka consumer --topic test-bgbiao-1
 INFO[0000] Sarama consumer up and running!...
 INFO[0004] part:2 offset:0
 msg: Nice to meet you.
 INFO[0004] part:1 offset:0
 msg: Hello, BGBiao.
+
+# 指定消费者组进行消费，同时指定的消费顺序从最新的消息开始
+$ ./build/gokafka.mac  --cluster dev-kafka consumer --topic test-bgbiao-1 --group consumer-group --offset latest
+
+
+
 
 # 6.查看集群的broker列表以及controller
 $ ./build/gokafka.mac  --cluster dev-kafka describe broker
