@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+
 	"gokafka/api"
 	"gokafka/controller"
 
@@ -12,7 +14,8 @@ var (
 	topicName     string
 	partNum       int32
 	replicaFactor int16
-	topicConfig   map[string]string
+	configEntries string
+	retentionTime int32
 )
 
 func init() {
@@ -22,6 +25,8 @@ func init() {
 	createCmd.PersistentFlags().Int32Var(&partNum, "partition", 3, "指定分区数量[默认分区:3]")
 	createCmd.PersistentFlags().Int16Var(&replicaFactor, "replicas", 3, "指定副本数量[默认副本:3]")
 	// createCmd.PersistentFlags().StringToStringVar(&topicConfig, "config", map[string]string{"":""},"指定topic相关的配置")
+	createCmd.PersistentFlags().Int32Var(&retentionTime, "retention", 48, "指定保留的时间，单位:h(小时)")
+	createCmd.PersistentFlags().StringVar(&configEntries, "topicConfig", "", "指定topic的配置参数进行创建，配置项以逗号分割(retention.ms:172800000,unclean.leader.election.enable:true)")
 
 }
 
@@ -43,6 +48,7 @@ var createCmd = &cobra.Command{
 
 		}
 		var _broker []string
+		topicConfig := make(map[string]string)
 		// 从配置文件中根据集群名获取指定的broker列表
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
@@ -52,6 +58,17 @@ var createCmd = &cobra.Command{
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
+
+		if len(configEntries) != 0 {
+			configEntry := strings.Split(configEntries, ",")
+			for _, v := range configEntry {
+				k := strings.Split(v, ":")[0]
+				v := strings.Split(v, ":")[1]
+				topicConfig[k] = v
+			}
+		}
+		// topicConfig = map[string]string{"retention.ms": fmt.Sprintf("%v", retentionTime*60*60*1000)}
+		topicConfig["retention.ms"] = fmt.Sprintf("%v", retentionTime*60*60*1000)
 
 		// 创建topic
 		controller.CreateTopic(_broker, topicName, partNum, replicaFactor, topicConfig)
