@@ -13,6 +13,14 @@ gokafka采用`sarama`库来实现日常kafka集群的基础demo功能。
 前者是confluent公司开源的kafka-go的sdk，后者是Shopify公司开源的sdk。
 
 
+**todo list**
+
+- [ ] 指定topic增加分区(TestAddPartitions)
+- [ ] 制定topic修改topic级别的参数，比如保留时间等等(TestUpdateTopicConfig()
+- [ ] 删除topic(TestDeleteTopic)
+- [ ] 获取消费者组的offset信息
+- [ ] 
+
 **快速开始**
 
 ```
