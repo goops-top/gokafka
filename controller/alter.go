@@ -15,6 +15,8 @@ import (
 	xerrors "github.com/pkg/errors"
 )
 
+// 修改topic的分区数量，kafka中为保证数据的可靠性是不允许缩减分区的
+// 比较多的分区可以提高整个消息的并发消费，但同时也可能对一定的网络时延有一定的影响
 func AlterTopicPartitionsNum(brokers []string, topicName string, partNum int32) (bool, error) {
 
 	admin := kafka.NewClusterAdmin(brokers)
@@ -27,4 +29,66 @@ func AlterTopicPartitionsNum(brokers []string, topicName string, partNum int32) 
 		return isOK, xerrors.Wrapf(err, "failed to alter the topic partitions with topic:%s part:%d ", topicName, partNum)
 	}
 	return isOK, err
+}
+
+// 修改topic相关的参数
+// config: map[string]string{"retention.ms":"43200000","unclean.leader.election.enable","true"}
+func AlterTopicConfigs(brokers []string, topicName string, configs map[string]string) (bool, error) {
+	admin := kafka.NewClusterAdmin(brokers)
+	defer admin.Close()
+
+	isOK, err := admin.UpdateTopicConfig(topicName, configs, false)
+
+	if err != nil {
+		return isOK, xerrors.Wrapf(err, "failed to update the topic config with topic:%s configs:%v", topicName, configs)
+	}
+
+	return isOK, err
+
+}
+
+// delete a kafka topic
+func DeleteTopic(brokers []string, topicName string) (bool, error) {
+	admin := kafka.NewClusterAdmin(brokers)
+
+	defer admin.Close()
+
+	isOK, err := admin.DeleteTopic(topicName)
+
+	if err != nil {
+		return isOK, xerrors.Wrapf(err, "failed to delete the topic with topicName :%s", topicName)
+	}
+	return isOK, err
+
+}
+
+// delete some kafka topics
+func DeletTopics(brokers, topicsName []string) (bool, error) {
+
+	var deleteErrors error
+	var deleteList []bool
+	topicListLenth := len(topicsName)
+
+	if topicListLenth == 0 {
+		return false, xerrors.Wrapf(xerrors.New("topicName list is null"), "failed to delete the topics with topiclist:%v", topicsName)
+	}
+	admin := kafka.NewClusterAdmin(brokers)
+	defer admin.Close()
+
+	for _, v := range topicsName {
+		isOK, err := admin.DeleteTopic(v)
+		if isOK {
+			deleteList = append(deleteList, true)
+		}
+		if err != nil {
+			deleteErrors = xerrors.Wrapf(err, "failed to delete the topic with: %v\n", v)
+		}
+
+	}
+
+	if len(deleteList) != topicListLenth {
+		return false, deleteErrors
+	}
+
+	return true, nil
 }
