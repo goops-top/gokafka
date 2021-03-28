@@ -29,6 +29,11 @@ type ClusterInfo struct {
 	Name    string   `json:"name"`
 	Version string   `json:"version"`
 	Brokers []string `json:"brokers"`
+	// define a sasl auth, only support the sasl/plaintext
+	Sasl         bool   `json:"sasl"`
+	SaslType     string `json:"saslType"`
+	SaslUser     string `json:"saslUser"`
+	SaslPassword string `json:"saslPassword"`
 }
 
 // var Cluster []*ClusterInfo
@@ -89,27 +94,44 @@ func (config *VipConfig) ParserConfig(configFile string) {
 		       Brokers: brokers,
 		   }
 		*/
-		clusterInfo := ClusterInfo{
-			Name: c["name"].(string),
-			Version: c["version"].(string),
-			Brokers: brokers,
+		var clusterInfo ClusterInfo
+		if c["sasl"].(bool) {
+			clusterInfo = ClusterInfo{
+				Name:         c["name"].(string),
+				Version:      c["version"].(string),
+				Brokers:      brokers,
+				Sasl:         c["sasl"].(bool),
+				SaslType:     c["saslType"].(string),
+				SaslUser:     c["saslUser"].(string),
+				SaslPassword: c["saslPassword"].(string),
+			}
+		} else {
+			clusterInfo = ClusterInfo{
+				Name:    c["name"].(string),
+				Version: c["version"].(string),
+				Brokers: brokers,
+			}
 		}
 		Cluster = append(Cluster, clusterInfo)
 	}
 }
 
-var defaultConf string = `
-app: gokafka
+var defaultConf string = `app: gokafka
 spec:
   clusters:
   - name: test-kafka
     version: V2_5_0_0
+    sasl: true
+    saslType: plaintext
+    saslUser: GoOps
+    saslPassword: GoOps
     brokers:
     - 10.0.0.1:9092
     - 10.0.0.2:9092
     - 10.0.0.3:9092
   - name: dev-kafka
     version: V1_0_0_0
+    sasl: false
     brokers:
     - 192.168.0.22:9092
     - 192.168.0.23:9092

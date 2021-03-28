@@ -128,6 +128,10 @@ var alterTopicConfigsCmd = &cobra.Command{
 				v := strings.Split(v, ":")[1]
 				topicConfig[k] = v
 			}
+		} else {
+			fmt.Println("请使用--configs参数指定需要更新topic的具体参数，负责会将全部topic级别参数覆盖.")
+			cmd.Help()
+			return
 		}
 
 		for _, topic := range topicList {

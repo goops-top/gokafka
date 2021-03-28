@@ -113,6 +113,8 @@ github.com/goops-top/utils v0.0.4 h1:A3GOg8YtT0P8Kl12WtSU2PseSGpZgTmplaqp3cEkPVg
 github.com/goops-top/utils v0.0.4/go.mod h1:l9fqymgLh62ADp0Lrp/lRoiNtmjtLGRRjIdG52V3r58=
 github.com/goops-top/utils v0.0.5 h1:JRWBoKD2O6s2l4g2gyK30Z6qkj7YsunjqzPwG8U6iaE=
 github.com/goops-top/utils v0.0.5/go.mod h1:yQdCaANQmOmu2M5VNRfM1gpV4yeVkzXn+GFtB6KG7WY=
+github.com/goops-top/utils v0.0.6 h1:GWHfVyw3207JTyaHlukVQw2NuJY4LfVESYrG0CAJjL8=
+github.com/goops-top/utils v0.0.6/go.mod h1:02F+lvcsJZ90xhuc8t1dbNL+LSTGkLzFaspDjTK1NRA=
 github.com/gopherjs/gopherjs v0.0.0-20181017120253-0766667cb4d1/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
 github.com/gorilla/sessions v1.2.1/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=

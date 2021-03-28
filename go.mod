@@ -6,11 +6,12 @@ require (
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/Shopify/sarama v1.28.0
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
-	github.com/goops-top/utils v0.0.5
+	github.com/goops-top/utils v0.0.6
 	github.com/jordan-wright/email v0.0.0-20200602115436-fd8a7622303e // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.3.2 // indirect
+	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pelletier/go-toml v1.8.0 // indirect
 	github.com/pkg/errors v0.9.1
 	github.com/russross/blackfriday v1.5.2
@@ -23,4 +24,9 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.0
 	gopkg.in/ini.v1 v1.57.0 // indirect
+	gopkg.in/jcmturner/aescts.v1 v1.0.1 // indirect
+	gopkg.in/jcmturner/dnsutils.v1 v1.0.1 // indirect
+	gopkg.in/jcmturner/goidentity.v3 v3.0.0 // indirect
+	gopkg.in/jcmturner/gokrb5.v7 v7.5.0 // indirect
+	gopkg.in/jcmturner/rpc.v1 v1.1.0 // indirect
 )
