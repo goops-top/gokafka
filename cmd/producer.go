@@ -39,13 +39,20 @@ var producerMsgCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
-
+		ctx := controller.NewClusterContext(*clusterInfo)
+		producerApi, _ := controller.NewClusterApi(ctx, "producer")
 		// 指定topic进行消费消息
-		controller.ProducerMsgFromString(_broker, topicName, msgData)
+		producerApi.ProducerMsgFromString(topicName, msgData)
 	},
 }

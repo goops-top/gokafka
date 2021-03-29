@@ -12,6 +12,7 @@ package controller
 
 import (
 	"fmt"
+	"gokafka/api"
 	"testing"
 )
 
@@ -29,4 +30,21 @@ func TestAlterTopicConfigs(t *testing.T) {
 func TestDeleteTopic(t *testing.T) {
 	isok, err := DeleteTopic([]string{"172.16.32.22:9092"}, "heleitest")
 	fmt.Println(isok, err)
+}
+
+func TestAlterTopicPartNumWithSASL(t *testing.T) {
+	cluster := api.ClusterInfo{
+		Name:         "test-kafka",
+		Version:      "V2_5_0_0",
+		Brokers:      []string{"172.29.202.56:9092"},
+		Sasl:         true,
+		SaslType:     "plaintext",
+		SaslUser:     "MQKafkaAdmin",
+		SaslPassword: "MQKafkaAdmin",
+	}
+	ctx := NewClusterContext(cluster)
+
+	adminApi, _ := NewClusterApi(ctx, "admin")
+	// adminApi.DeleteTopic("GoOps")
+	adminApi.CreateTopic("GoOps", 3, 3, map[string]string{"retention.ms": "8888"})
 }

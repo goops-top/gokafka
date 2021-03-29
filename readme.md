@@ -15,11 +15,11 @@ gokafka采用`sarama`库来实现日常kafka集群的基础demo功能。
 
 **todo list**
 
-- [ ] 指定topic增加分区(TestAddPartitions)
-- [ ] 制定topic修改topic级别的参数，比如保留时间等等(TestUpdateTopicConfig()
-- [ ] 删除topic(TestDeleteTopic)
-- [ ] 获取消费者组的offset信息
-- [ ] 
+- [X] 指定topic增加分区(TestAddPartitions)
+- [X] 制定topic修改topic级别的参数，比如保留时间等等(TestUpdateTopicConfig()
+- [X] 删除topic(TestDeleteTopic)
+- [X] 获取消费者组的offset信息
+- [X] 增加SASL/PlainText 认证 
 
 **快速开始**
 
@@ -201,21 +201,21 @@ id:3		 broker:192.168.0.24:9092
 $ ./build/gokafka.mac  --cluster dev-kafka describe loginfo --topic-list test-bgbiao-1
 topic:test-bgbiao-1
 172.16.32.23:9092
-logdir:/soul/data/kafka/kafka-logs
+logdir:/opt/data/kafka/kafka-logs
 topic-part		log-size(M)		offset-lag
 ----------		-----------		----------
 test-bgbiao-1-0		0		0
 test-bgbiao-1-1		0		0
 test-bgbiao-1-2		0		0
 172.16.32.22:9092
-logdir:/soul/data/kafka/kafka-logs
+logdir:/opt/data/kafka/kafka-logs
 topic-part		log-size(M)		offset-lag
 ----------		-----------		----------
 test-bgbiao-1-0		0		0
 test-bgbiao-1-1		0		0
 test-bgbiao-1-2		0		0
 172.16.32.24:9092
-logdir:/soul/data/kafka/kafka-logs
+logdir:/opt/data/kafka/kafka-logs
 topic-part		log-size(M)		offset-lag
 ----------		-----------		----------
 test-bgbiao-1-0		0		0

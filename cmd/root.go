@@ -7,6 +7,17 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// init a clusterMetaConfig
+var clusterInfo = &api.ClusterInfo{
+	Name:         "test-kafka",
+	Version:      "V2_5_0_0",
+	Brokers:      []string{"127.0.0.1:9092"},
+	Sasl:         false,
+	SaslType:     "plaintext",
+	SaslUser:     "",
+	SaslPassword: "",
+}
+
 var (
 	// kafka 相关参数
 	cluster    string // 指定集群名称

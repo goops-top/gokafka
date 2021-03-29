@@ -55,18 +55,28 @@ var descLogInfoCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
 
+		// 使用初始化后的配置创建对应的api
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
+
 		if topicName == "" {
-			controller.DescribeTopicLog(_broker)
+			adminApi.DescribeTopicLog()
 
 		} else {
 			topicList := strings.Split(topicName, ",")
-			controller.DescribeTopicListLog(_broker, topicList)
+			adminApi.DescribeTopicListLog(topicList)
 		}
 
 	},
@@ -88,18 +98,26 @@ var descTopicCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
-
+		// 使用初始化后的配置创建对应的api
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
 		if topicName == "" {
-			controller.DescribeTopic(_broker, []string{})
+			adminApi.DescribeTopic([]string{})
 
 		} else {
 			topicList := strings.Split(topicName, ",")
-			controller.DescribeTopic(_broker, topicList)
+			adminApi.DescribeTopic(topicList)
 		}
 	},
 }
@@ -120,14 +138,22 @@ var descBrokerCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
-
+		// 使用初始化后的配置创建对应的api
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
 		// describe the broker info
-		controller.DescribeBroker(_broker)
+		adminApi.DescribeBroker()
 	},
 }
 
@@ -147,6 +173,12 @@ var descConsumerInfoCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
@@ -158,7 +190,10 @@ var descConsumerInfoCmd = &cobra.Command{
 			cmd.Help()
 		} else {
 			groupList := strings.Split(groupNames, ",")
-			controller.DescribeConsumerGroup(_broker, groupList)
+			// 使用初始化后的配置创建对应的api
+			ctx := controller.NewClusterContext(*clusterInfo)
+			adminApi, _ := controller.NewClusterApi(ctx, "admin")
+			adminApi.DescribeConsumerGroup(groupList)
 		}
 
 	},
@@ -185,13 +220,20 @@ var descConsumerGroupOffSetCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
-
-		controller.ListConsumerGroupOffSet(_broker, group, topicName)
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
+		adminApi.ListConsumerGroupOffSet(group, topicName)
 
 	},
 }

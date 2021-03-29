@@ -20,6 +20,7 @@ import (
 )
 
 // list the topic
+// DEPRECATED: this function should be replaced with the method  ListTopic
 func ListTopic(brokers, topics []string) {
 	kfkAdmin := kafka.NewClusterAdmin(brokers)
 	defer kfkAdmin.Close()
@@ -39,12 +40,45 @@ func ListTopic(brokers, topics []string) {
 	}
 }
 
+func (c ClusterApi) ListTopic(topics []string) {
+	defer c.AdminApi.Close()
+
+	topicsInfos, err := c.AdminApi.ListTopicsInfo(topics)
+	if err != nil {
+		panic(err)
+	}
+	for _, topic := range topicsInfos {
+		confEntry := ""
+		for confName, confValue := range topic.ConfigEntries {
+			confEntry = confEntry + fmt.Sprintf("%v:%v,", confName, *confValue)
+		}
+		fmt.Printf("Topic:%v\tPartNum:%v\tReplicas:%v\tConfig:%v\n", topic.Name, topic.PartitionNum, topic.Replication, confEntry)
+		for k, v := range topic.ReplicaAssignment {
+			fmt.Printf("Topic-Part:%v-%v\tReplicaAssign:%v\n", topic.Name, k, v)
+		}
+	}
+}
+
 // list the consumer group
+// DEPRECATED: this function should be replaced with the method  ListConsumerGroup
 func ListConsumerGroup(brokers []string) {
 	kfkAdmin := kafka.NewClusterAdmin(brokers)
 	defer kfkAdmin.Close()
 
 	consumerGroups, consumerListErr := kfkAdmin.ListConsumerGroup()
+	if consumerListErr != nil {
+		fmt.Printf("获取消费组信息失败:%v\n", consumerListErr)
+		panic(consumerListErr)
+	}
+
+	fmt.Printf("%v\n", strings.Join(consumerGroups, "\n"))
+
+}
+
+func (c ClusterApi) ListConsumerGroup() {
+	defer c.AdminApi.Close()
+
+	consumerGroups, consumerListErr := c.AdminApi.ListConsumerGroup()
 	if consumerListErr != nil {
 		fmt.Printf("获取消费组信息失败:%v\n", consumerListErr)
 		panic(consumerListErr)

@@ -72,6 +72,12 @@ var alterTopicPartitionsCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
@@ -81,7 +87,9 @@ var alterTopicPartitionsCmd = &cobra.Command{
 		newPart, _ := strconv.Atoi(partitions)
 		topicList := strings.Split(topicName, ",")
 		for _, topic := range topicList {
-			isok, err := controller.AlterTopicPartitionsNum(_broker, topic, int32(newPart))
+			ctx := controller.NewClusterContext(*clusterInfo)
+			adminApi, _ := controller.NewClusterApi(ctx, "admin")
+			isok, err := adminApi.AlterTopicPartitionsNum(topic, int32(newPart))
 			if err != nil {
 				fmt.Printf("%v\n", err)
 			}
@@ -112,6 +120,12 @@ var alterTopicConfigsCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
@@ -135,7 +149,9 @@ var alterTopicConfigsCmd = &cobra.Command{
 		}
 
 		for _, topic := range topicList {
-			isok, err := controller.AlterTopicConfigs(_broker, topic, topicConfig)
+			ctx := controller.NewClusterContext(*clusterInfo)
+			adminApi, _ := controller.NewClusterApi(ctx, "admin")
+			isok, err := adminApi.AlterTopicConfigs(topic, topicConfig)
 			if err != nil {
 				fmt.Printf("%v\n", err)
 			}

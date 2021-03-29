@@ -56,18 +56,27 @@ var listTopicCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
+
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
 		// topicName is a string
 		// should a topicList
 		if topicName == "" {
-			controller.ListTopic(_broker, []string{})
+			adminApi.ListTopic([]string{})
 		}
 		topicList := strings.Split(topicName, ",")
-		controller.ListTopic(_broker, topicList)
+		adminApi.ListTopic(topicList)
 
 	},
 }
@@ -87,12 +96,19 @@ var listConsumerGroupCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
 		}
-
-		controller.ListConsumerGroup(_broker)
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
+		adminApi.ListConsumerGroup()
 	},
 }

@@ -39,6 +39,12 @@ var deleteCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
@@ -46,7 +52,10 @@ var deleteCmd = &cobra.Command{
 		}
 
 		topicList := strings.Split(topicName, ",")
-		isok, err := controller.DeletTopics(_broker, topicList)
+
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
+		isok, err := adminApi.DeletTopics(topicList)
 		if err != nil {
 			fmt.Println(err)
 		}

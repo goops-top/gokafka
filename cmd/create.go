@@ -53,6 +53,12 @@ var createCmd = &cobra.Command{
 		for _, v := range api.Cluster {
 			if v.Name == cluster {
 				_broker = v.Brokers
+				// 构造集群相关的基本函数
+				clusterInfo.Brokers = _broker
+				clusterInfo.Sasl = v.Sasl
+				clusterInfo.SaslType = v.SaslType
+				clusterInfo.SaslUser = v.SaslUser
+				clusterInfo.SaslPassword = v.SaslPassword
 			}
 		}
 		if len(_broker) == 0 {
@@ -71,6 +77,8 @@ var createCmd = &cobra.Command{
 		topicConfig["retention.ms"] = fmt.Sprintf("%v", retentionTime*60*60*1000)
 
 		// 创建topic
-		controller.CreateTopic(_broker, topicName, partNum, replicaFactor, topicConfig)
+		ctx := controller.NewClusterContext(*clusterInfo)
+		adminApi, _ := controller.NewClusterApi(ctx, "admin")
+		adminApi.CreateTopic(topicName, partNum, replicaFactor, topicConfig)
 	},
 }
