@@ -66,6 +66,7 @@ var listTopicCmd = &cobra.Command{
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
+			clusterInfo.Brokers = _broker
 		}
 
 		ctx := controller.NewClusterContext(*clusterInfo)

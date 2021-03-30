@@ -41,7 +41,9 @@ func ListTopic(brokers, topics []string) {
 }
 
 func (c ClusterApi) ListTopic(topics []string) {
-	defer c.AdminApi.Close()
+	// 关闭早了，可能导致后面的listTopicsInfo 异常
+	// 最好是级联进行控制相关的关闭和退出
+	// defer c.AdminApi.Close()
 
 	topicsInfos, err := c.AdminApi.ListTopicsInfo(topics)
 	if err != nil {
@@ -57,6 +59,7 @@ func (c ClusterApi) ListTopic(topics []string) {
 			fmt.Printf("Topic-Part:%v-%v\tReplicaAssign:%v\n", topic.Name, k, v)
 		}
 	}
+
 }
 
 // list the consumer group

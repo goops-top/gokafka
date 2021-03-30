@@ -63,6 +63,7 @@ var createCmd = &cobra.Command{
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
+			clusterInfo.Brokers = _broker
 		}
 
 		if len(configEntries) != 0 {

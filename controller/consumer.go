@@ -40,6 +40,8 @@ func (c ClusterApi) ConsumerMsgTopics(topics []string, groupName, offset string)
 	case <-sigterm:
 		log.Warnln("terminating: via signal")
 	}
-	consumer()
+	for i := 0; i < 5; i++ {
+		go consumer()
+	}
 
 }

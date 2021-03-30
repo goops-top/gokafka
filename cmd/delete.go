@@ -49,6 +49,7 @@ var deleteCmd = &cobra.Command{
 		}
 		if len(_broker) == 0 {
 			_broker = []string{broker}
+			clusterInfo.Brokers = _broker
 		}
 
 		topicList := strings.Split(topicName, ",")
