@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [ '1.14', '1.15', '1.16.x', '1.18','1.19']
+        go-version: [ '1.19']
     steps:
     - uses: actions/checkout@v3
     - name: Set up Go ${{ matrix.go-version }}
@@ -39,6 +39,7 @@ jobs:
       run: | 
           go get .
           go mod download 
+          go get -u golang.org/x/sys/unix
     - name: Test with the Go CLI
       run: go test 
     - name: Build mutli bin
