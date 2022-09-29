@@ -44,11 +44,15 @@ jobs:
       run: go test 
     - name: Build mutli bin
       run: make default
+    - name: Check some bin
+      run: ls build
+    - name: Tar files
+      run: tar -zxf gokafka.tar.gz build/
     - name: Upload Go Bin
       uses: actions/upload-artifact@v3
       with:
-        name: gokafka.linux
-        path: build/gokafka.linux
+        name: gokafka.tar.gz
+        path: gokafka.tar.gz
 
 
 
