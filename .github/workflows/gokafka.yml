@@ -23,17 +23,31 @@ jobs:
       - run: echo "🍏 This job's status is ${{ job.status }}."
   Build-Bin:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.14', '1.15', '1.16.x', '1.18','1.19']
     steps:
     - uses: actions/checkout@v3
-
-    - name: Set up Go
+    - name: Set up Go ${{ matrix.go-version }}
       uses: actions/setup-go@v3
       with:
-        go-version: 1.18
-    - name: Set env 
-      run: mkdir build 
-    - name: Build
-      run: go build   -v ./... 
+        go-version: ${{ matrix.go-version }}
+        cache: true
+    - name: Display Go version
+      run: go version
+    - name: Install dependencies
+      run: | 
+          go get .
+          go mod download 
+    - name: Test with the Go CLI
+      run: go test 
+    - name: Build mutli bin
+      run: make default
+    - name: Upload Go Bin
+      uses: actions/upload-artifact@v3
+      with:
+        name: gokafka.linux
+        path: build/gokafka.linux
 
 
 
