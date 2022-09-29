@@ -47,7 +47,7 @@ jobs:
     - name: Check some bin
       run: ls build
     - name: Tar files
-      run: tar -zxf gokafka.tar.gz build/
+      run: tar -zcf gokafka.tar.gz build/
     - name: Upload Go Bin
       uses: actions/upload-artifact@v3
       with:
