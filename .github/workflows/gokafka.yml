@@ -33,7 +33,7 @@ jobs:
     - name: Set env 
       run: mkdir build 
     - name: Build
-      run: go build -o build/goops-kafka  -v ./... 
+      run: go build   -v ./... 
 
 
 
