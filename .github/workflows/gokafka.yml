@@ -21,7 +21,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-  build:
+  Build-Bin:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -30,7 +30,8 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: 1.18
-
+    - name: Set env 
+      run: mkdir build 
     - name: Build
       run: go build -o build/goops-kafka  -v ./... 
 
