@@ -21,7 +21,7 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-  Build-Bin:
+  Build-And-Test-Gokafka:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,13 +42,13 @@ jobs:
           go get -u golang.org/x/sys/unix
     - name: Test with the Go CLI
       run: go test 
-    - name: Build mutli bin
+    - name: Build Artifacts for mac and linux
       run: make default
-    - name: Check some bin
+    - name: Check Artifacts 
       run: ls build
-    - name: Tar files
+    - name: Tar Artifacts
       run: tar -zcf gokafka.tar.gz build/
-    - name: Upload Go Bin
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: gokafka.tar.gz
