@@ -21,19 +21,38 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-  Build-Bin:
+  Build-And-Test-Gokafka:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.19']
     steps:
     - uses: actions/checkout@v3
-
-    - name: Set up Go
+    - name: Set up Go ${{ matrix.go-version }}
       uses: actions/setup-go@v3
       with:
-        go-version: 1.18
-    - name: Set env 
-      run: mkdir build 
-    - name: Build
-      run: go build   -v ./... 
+        go-version: ${{ matrix.go-version }}
+        cache: true
+    - name: Display Go version
+      run: go version
+    - name: Install dependencies
+      run: | 
+          go get .
+          go mod download 
+          go get -u golang.org/x/sys/unix
+    - name: Test with the Go CLI
+      run: go test 
+    - name: Build Artifacts for mac and linux
+      run: make default
+    - name: Check Artifacts 
+      run: ls build
+    - name: Tar Artifacts
+      run: tar -zcf gokafka.tar.gz build/
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: gokafka.tar.gz
+        path: gokafka.tar.gz
 
 
 
